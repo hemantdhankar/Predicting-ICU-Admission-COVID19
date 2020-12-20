@@ -466,6 +466,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import log_loss
 from sklearn import tree
 import graphviz
+from sklearn.neural_network import MLPClassifier
 
 """Shape of Datasets"""
 
@@ -691,5 +692,43 @@ plt.xlabel("Max Depth")
 plt.ylabel("Error")
 plt.plot(np.arange(1,30),rf_train_score,label="Training Error")
 plt.plot(np.arange(1,30),rf_test_score,label="Testing Error")
+plt.legend()
+plt.plot()
+
+"""Training model with different activation functions and finding model with best accuracy"""
+
+best=1
+acc=-1
+for a in ["identity", "logistic", "tanh", "relu"]:
+    model = MLPClassifier(activation=a,max_iter=10000, batch_size=64,alpha=0.1,random_state=1).fit(X_train,Y_train)
+    y_pred = model.predict(X_test)
+    print(a)
+    ass(Y_test,y_pred)
+    score = model.score(X_test,Y_test)
+    if score>acc:
+      acc=score
+      best = a
+    #print(a," - ",model.score(X_test,Y_test))
+print(best,acc)
+
+"""Performing Grid search on the model we got from the above"""
+
+rf_train_score=[]
+rf_test_score=[]
+a=[0.001,0.01,0.1]
+for i in range(len(a)):
+  param_grid = {'activation':[best],'max_iter': [10000],'batch_size':[64],'alpha':[0.1],'learning_rate_init':[a[i]],'random_state':[1]}
+  GS=GridSearchCV(MLPClassifier(), param_grid)
+  GS.fit(X_train,Y_train)
+  y_train_pred=GS.predict(X_train)
+  y_pred=GS.predict(X_test)
+  rf_train_score.append(log_loss(Y_train,y_train_pred))
+  rf_test_score.append(log_loss(Y_test,y_pred))
+
+plt.title(" MLPClassifier Error vs Learning rate")
+plt.xlabel("Learning rate")
+plt.ylabel("Error")
+plt.plot([0.001,0.01,0.1],rf_train_score,label="Training Error")
+plt.plot([0.001,0.01,0.1],rf_test_score,label="Testing Error")
 plt.legend()
 plt.plot()
