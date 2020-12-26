@@ -6,7 +6,7 @@ If you want to know about the project details, open the file Predicting_ICU_Admi
 
 
 # How to Run Code
-It is recommended to use the jupyter notebook or google colab. 
+It is recommended to use the jupyter notebook or google colab for best experience. 
 
 
 ##Dependencies
