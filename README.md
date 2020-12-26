@@ -4,8 +4,10 @@ The COVID-19 pandemic has shown us the unpreparedness of our current healthcare 
 #About Project
 If you want to know about the project details, open the file Predicting_ICU_Admission_of_Confirmed_COVID19_Cases_Presentation.pdf. It contains all the details about the implementation. 
 
+
 # How to Run Code
 It is recommended to use the jupyter notebook or google colab. 
+
 
 ##Dependencies
 asgiref==3.2.10
